@@ -190,9 +190,18 @@ export default function FactChecker() {
   // Sample blog content
   const sampleBlog = `The Eiffel Tower, a remarkable iron lattice structure standing proudly in Paris, was originally built as a giant sundial in 1822, intended to cast shadows across the city to mark the hours. Designed by the renowned architect Gustave Eiffel, the tower stands 330 meters tall and once housed the city's first observatory.\n\nWhile it's famously known for hosting over 7 million visitors annually, it was initially disliked by Parisians. Interestingly, the Eiffel Tower was used as to guide ships along the Seine during cloudy nights.`;
 
+  // Sample URL for scraping
+  const sampleUrl = 'https://www.independent.co.uk/news/world/americas/us-politics/kash-patel-hockey-winter-olympics-b2963486.html';
+
   // Load sample content function
   const loadSampleContent = () => {
     setArticleContent(sampleBlog);
+    setError(null);
+  };
+
+  // Load sample URL function
+  const loadSampleUrl = () => {
+    setUrlInput(sampleUrl);
     setError(null);
   };
 
@@ -301,6 +310,16 @@ export default function FactChecker() {
                 {isScraping ? 'Scraping...' : 'Scrape URL'}
               </button>
             </div>
+
+            <button
+              onClick={loadSampleUrl}
+              disabled={isScraping || isGenerating}
+              className={`px-3 sm:px-4 py-2 sm:py-2.5 border-2 border-brand-default text-brand-default font-semibold rounded-none hover:bg-brand-default hover:text-white transition-all opacity-0 animate-fade-up [animation-delay:1150ms] text-sm sm:text-base touch-manipulation ${
+                isScraping || isGenerating ? 'cursor-not-allowed opacity-50' : ''
+              }`}
+            >
+              Try with a sample news article
+            </button>
           </div>
 
           <button
