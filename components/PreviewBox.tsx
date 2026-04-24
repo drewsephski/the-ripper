@@ -103,28 +103,28 @@ const PreviewBox: React.FC<PreviewBoxProps> = ({ content, claims }) => {
   };
 
   return (
-    <div className="space-y-8 w-full">
+    <div className="space-y-6 sm:space-y-8 w-full">
 
       {/* Preview Box */}
       <div className="relative">
-        <div className="w-full min-h-[200px] p-6 bg-white border rounded-none shadow-sm opacity-0 animate-fade-up [animation-delay:200ms]">
+        <div className="w-full min-h-[150px] sm:min-h-[200px] p-4 sm:p-6 bg-white border rounded-none shadow-sm opacity-0 animate-fade-up [animation-delay:200ms] text-sm sm:text-base">
           {highlightClaims()}
         </div>
         
         {/* Copy Button */}
-        <div className="flex justify-end mt-3 mb-10 mr-5 opacity-0 animate-fade-up [animation-delay:400ms]">
+        <div className="flex justify-end mt-2 sm:mt-3 mb-6 sm:mb-10 mr-4 sm:mr-5 opacity-0 animate-fade-up [animation-delay:400ms]">
           <button
             onClick={handleCopy}
-            className="flex items-center space-x-2 text-sm text-gray-600 hover:text-gray-900"
+            className="flex items-center space-x-2 text-xs sm:text-sm text-gray-600 hover:text-gray-900 touch-manipulation"
           >
             {copied ? (
               <>
-                <CheckCheck size={16} />
+                <CheckCheck className="w-[14px] h-[14px] sm:w-[16px] sm:h-[16px]" />
                 <span>Copied!</span>
               </>
             ) : (
               <>
-                <Copy size={16} />
+                <Copy className="w-[14px] h-[14px] sm:w-[16px] sm:h-[16px]" />
                 <span>Copy all text</span>
               </>
             )}

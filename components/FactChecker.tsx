@@ -7,7 +7,7 @@ import LoadingMessages from "./ui/LoadingMessages";
 import PreviewBox from "./PreviewBox";
 import { ChevronDown, ChevronRight, ChevronUp } from "lucide-react";
 import AnimatedGradientText from "./ui/animated-gradient-text";
-import ShareButtons from "./ui/ShareButtons";
+import Footer from "./ui/ShareButtons";
 import { getAssetPath } from "@/lib/utils";
 
 interface Claim {
@@ -195,52 +195,52 @@ export default function FactChecker() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen z-0">
+    <div className={`flex flex-col z-0 ${factCheckResults.length > 0 ? 'min-h-screen' : 'h-screen'} overflow-hidden`}>
 
         {/* Badge positioned at the top */}
-      <div className="w-full flex justify-center pt-10 opacity-0 animate-fade-up [animation-delay:200ms]">
-        <Link href="https://exa.ai/" target="_blank">
+      <div className="w-full flex justify-center pt-12 sm:pt-16 md:pt-24 opacity-0 animate-fade-up [animation-delay:200ms]">
+        <Link href="https://github.com/drewsephski/the-ripper" target="_blank">
           <AnimatedGradientText>
-          <img 
-            src={getAssetPath('/exaicon.png')} 
-            alt="exa logo" 
-            className="w-5 h-5 inline-block mr-2" 
+          <img
+            src={getAssetPath('/exaicon.png')}
+            alt="exa logo"
+            className="w-4 h-4 sm:w-5 sm:h-5 inline-block mr-2"
           />
-            <span className="inline animate-gradient bg-gradient-to-r from-[#254bf1] via-purple-600 to-[#254bf1] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent">
-              Built on Exa - Search Engine for AI
+            <span className="inline animate-gradient bg-gradient-to-r from-[#254bf1] via-purple-600 to-[#254bf1] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent text-xs sm:text-sm">
+              Open Source Project
             </span>
             <ChevronRight className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
           </AnimatedGradientText>
         </Link>
       </div>
 
-      <main className="flex flex-col items-center justify-center flex-grow w-full max-w-6xl md:max-w-4xl p-6">
-        <div className="text-left">
-          <h1 className="md:text-6xl text-4xl pb-5 font-medium opacity-0 animate-fade-up [animation-delay:400ms]">
+      <main className={`flex flex-col items-center justify-start flex-grow w-full max-w-7xl lg:max-w-6xl md:max-w-4xl sm:max-w-full px-4 sm:px-6 pt-8 sm:pt-12 ${factCheckResults.length > 0 ? 'overflow-auto' : ''}`}>
+        <div className="text-left w-full">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl pb-3 sm:pb-4 font-medium opacity-0 animate-fade-up [animation-delay:400ms] leading-tight">
             Detect LLM 
             <span className="text-brand-default"> Hallucinations </span>
           </h1>
 
-          <p className="text-gray-800 mb-12 opacity-0 animate-fade-up [animation-delay:600ms]">
+          <p className="text-gray-800 text-sm sm:text-base mb-6 sm:mb-10 opacity-0 animate-fade-up [animation-delay:600ms]">
             Verify your content with real web data.
           </p>
         </div>
     
-        <form onSubmit={factCheck} className="space-y-6 w-full mb-10">
+        <form onSubmit={factCheck} className="space-y-3 sm:space-y-4 w-full mb-8 sm:mb-12">
           <textarea
             ref={textareaRef}
             value={articleContent}
             onChange={(e) => setArticleContent(e.target.value)}
             placeholder="Enter Your Content"
-            className="w-full bg-white p-3 border box-border outline-none rounded-none ring-2 ring-brand-default resize-none min-h-[150px] max-h-[250px] overflow-auto opacity-0 animate-fade-up [animation-delay:800ms] transition-[height] duration-200 ease-in-out"
+            className="w-full bg-white p-3 sm:p-4 border box-border outline-none rounded-none ring-2 ring-brand-default resize-none min-h-[120px] sm:min-h-[150px] max-h-[200px] sm:max-h-[250px] overflow-auto opacity-0 animate-fade-up [animation-delay:800ms] transition-[height] duration-200 ease-in-out text-sm sm:text-base"
           />
 
-          <div className="pb-5">
+          <div className="pb-4 sm:pb-5">
             <button
               onClick={loadSampleContent}
               disabled={isGenerating}
-              className={`px-3 py-2 border-2 border-brand-default text-brand-default font-semibold rounded-none hover:bg-brand-default hover:text-white transition-all opacity-0 animate-fade-up [animation-delay:1000ms] ${
-                isGenerating ? 'cursor-not-allowed' : ''
+              className={`px-3 sm:px-4 py-2 sm:py-2.5 border-2 border-brand-default text-brand-default font-semibold rounded-none hover:bg-brand-default hover:text-white transition-all opacity-0 animate-fade-up [animation-delay:1000ms] text-sm sm:text-base touch-manipulation ${
+                isGenerating ? 'cursor-not-allowed opacity-50' : ''
               }`}
             >
               Try with a sample blog post
@@ -249,8 +249,8 @@ export default function FactChecker() {
 
           <button
             type="submit"
-            className={`w-full text-white mb-10 font-semibold px-2 py-2 rounded-none transition-opacity opacity-0 animate-fade-up [animation-delay:1200ms] min-h-[50px] ${
-              isGenerating ? 'bg-gray-400' : 'bg-brand-default ring-2 ring-brand-default'
+            className={`w-full text-white mb-6 sm:mb-10 font-semibold px-4 py-3 sm:py-4 rounded-none transition-opacity opacity-0 animate-fade-up [animation-delay:1200ms] min-h-[48px] sm:min-h-[50px] text-sm sm:text-base touch-manipulation ${
+              isGenerating ? 'bg-gray-400' : 'bg-brand-default ring-2 ring-brand-default hover:ring-offset-2'
             } transition-colors`}
             disabled={isGenerating}
           >
@@ -265,7 +265,7 @@ export default function FactChecker() {
         )}
 
         {error && (
-          <div className="mt-1 mb-14 p-3 bg-red-100 border border-red-400 animate-fade-up text-red-700 rounded-none">
+          <div className="mt-1 mb-8 sm:mb-14 p-3 sm:p-4 bg-red-100 border border-red-400 animate-fade-up text-red-700 rounded-none text-sm sm:text-base">
             {error}
           </div>
         )}
@@ -274,78 +274,72 @@ export default function FactChecker() {
        
 
         {factCheckResults.length > 0 && (
-        <div className="space-y-14 mt-5 mb-32">
+        <div className="space-y-8 sm:space-y-14 mt-4 sm:mt-5 mb-20 sm:mb-32 w-full">
             <PreviewBox
             content={articleContent}
             claims={factCheckResults}
             />
-            <div className="mt-4 pt-12 opacity-0 animate-fade-up [animation-delay:800ms]">
+            <div className="mt-4 pt-8 sm:pt-12 opacity-0 animate-fade-up [animation-delay:800ms]">
                 <button
                 onClick={() => setShowAllClaims(!showAllClaims)}
-                className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 font-medium"
+                className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 font-medium text-sm sm:text-base touch-manipulation"
                 >
                 {showAllClaims ? (
                     <>
                     <span>Hide Claims</span>
-                    <ChevronUp size={20} />
+                    <ChevronUp className="w-[18px] h-[18px] sm:w-[20px] sm:h-[20px]" />
                     </>
                 ) : (
                     <>
                     <span>Show All Claims</span>
-                    <ChevronDown size={20} />
+                    <ChevronDown className="w-[18px] h-[18px] sm:w-[20px] sm:h-[20px]" />
                     </>
                 )}
                 </button>
 
                 {/* Claims List */}
                 {showAllClaims && (
-                <div>
+                <div className="mt-4">
                     <ClaimsListResults results={factCheckResults} />
                 </div>
                 )}
             </div>
-            <ShareButtons />
         </div>
         )}
 
 
       </main>
-  
-      <footer className="w-full py-6 px-8 mb-6 mt-auto opacity-0 animate-fade-up [animation-delay:1400ms]">
-        <div className="max-w-md mx-auto">
-          <p className="text-md text-center text-gray-600">
-            <Link 
-              href="https://dashboard.exa.ai" 
-              target="_blank"
-              className="underline cursor-pointer hover:text-gray-800"
-            >
-              Try Exa API
-            </Link>
-            <span className="mx-3">|</span>
-            <Link 
-              href="https://github.com/exa-labs/exa-hallucination-detector" 
-              target="_blank"
-              className="underline cursor-pointer hover:text-gray-800"
-            >
-              Project Code
-            </Link>
-            <span className="mx-3">|</span>
-            <Link 
-              href="https://exa.ai/demos" 
-              target="_blank"
-              className="underline cursor-pointer hover:text-gray-800"
-            >
-              See More Demo Apps
-            </Link>
-            <span className="mx-3">|</span>
-            <Link 
-              href="https://docs.exa.ai/examples/demo-hallucination-detector" 
-              target="_blank"
-              className="underline cursor-pointer hover:text-gray-800"
-            >
-              Tutorial
-            </Link>
-          </p>
+
+      {/* Main Footer - Always Visible */}
+      <footer className="w-full py-4 sm:py-6 px-4 sm:px-8 mt-auto border-t-4 border-brand-default">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="flex-shrink-0 sm:w-8 sm:h-8"
+              >
+                <rect x="4" y="4" width="24" height="24" fill="#254bf1"/>
+                <rect x="8" y="8" width="8" height="8" fill="white"/>
+                <rect x="16" y="16" width="8" height="8" fill="white"/>
+                <rect x="8" y="20" width="4" height="4" fill="white"/>
+                <rect x="20" y="8" width="4" height="4" fill="white"/>
+              </svg>
+              <div className="flex flex-col">
+                <span className="text-xs sm:text-sm font-bold tracking-tight uppercase text-brand-dark">Made by</span>
+                <span className="text-xl sm:text-2xl font-black tracking-tighter leading-none text-brand-default">DREW</span>
+              </div>
+            </div>
+            <div className="text-right">
+              <span className="text-[10px] sm:text-xs font-mono text-brand-muted tracking-widest uppercase">
+                2026
+              </span>
+            </div>
+          </div>
         </div>
       </footer>
     </div>

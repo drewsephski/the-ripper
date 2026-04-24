@@ -3,8 +3,8 @@
 const nextConfig = {
     experimental: {
       serverActions: {
-        allowedOrigins: ["demo.exa.ai", "localhost:3000"],
-        allowedForwardedHosts: ["localhost:3000"],
+        allowedOrigins: ["localhost:3000", "the-ripper-omega.vercel.app"],
+        allowedForwardedHosts: ["localhost:3000", "the-ripper-omega.vercel.app"],
       },
     },
   };
