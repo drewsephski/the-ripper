@@ -14,6 +14,7 @@ export async function POST(req: NextRequest) {
     }
 
     console.log('OPENROUTER_API_KEY exists:', !!process.env.OPENROUTER_API_KEY);
+    console.log('OPENROUTER_API_KEY prefix:', process.env.OPENROUTER_API_KEY?.substring(0, 10));
 
     const openrouter = createOpenRouter({
       apiKey: process.env.OPENROUTER_API_KEY,

@@ -30,6 +30,8 @@ export default function FactChecker() {
   const [error, setError] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [showAllClaims, setShowAllClaims] = useState(true);
+  const [urlInput, setUrlInput] = useState('');
+  const [isScraping, setIsScraping] = useState(false);
 
   // Create a ref for the loading or bottom section
   const loadingRef = useRef<HTMLDivElement>(null);
@@ -194,8 +196,42 @@ export default function FactChecker() {
     setError(null);
   };
 
+  // Scrape URL function
+  const scrapeUrl = async () => {
+    if (!urlInput) {
+      setError("Please enter a URL to scrape.");
+      return;
+    }
+
+    setIsScraping(true);
+    setError(null);
+
+    try {
+      const response = await fetch(getAssetPath('/api/scrapeurl'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url: urlInput }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to scrape URL.');
+      }
+
+      const data = await response.json();
+      setArticleContent(data.content);
+      setUrlInput('');
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Failed to scrape URL.');
+    } finally {
+      setIsScraping(false);
+    }
+  };
+
   return (
-    <div className={`flex flex-col z-0 ${factCheckResults.length > 0 ? 'min-h-screen' : 'h-screen'} overflow-hidden`}>
+    <div className="flex flex-col z-0 min-h-screen">
 
         {/* Badge positioned at the top */}
       <div className="w-full flex justify-center pt-12 sm:pt-16 md:pt-24 opacity-0 animate-fade-up [animation-delay:200ms]">
@@ -235,7 +271,7 @@ export default function FactChecker() {
             className="w-full bg-white p-3 sm:p-4 border box-border outline-none rounded-none ring-2 ring-brand-default resize-none min-h-[120px] sm:min-h-[150px] max-h-[200px] sm:max-h-[250px] overflow-auto opacity-0 animate-fade-up [animation-delay:800ms] transition-[height] duration-200 ease-in-out text-sm sm:text-base"
           />
 
-          <div className="pb-4 sm:pb-5">
+          <div className="pb-4 sm:pb-5 space-y-3">
             <button
               onClick={loadSampleContent}
               disabled={isGenerating}
@@ -245,6 +281,26 @@ export default function FactChecker() {
             >
               Try with a sample blog post
             </button>
+            
+            <div className="flex gap-2 opacity-0 animate-fade-up [animation-delay:1100ms]">
+              <input
+                type="url"
+                value={urlInput}
+                onChange={(e) => setUrlInput(e.target.value)}
+                placeholder="Enter URL to scrape (e.g., https://example.com)"
+                className="flex-1 bg-white p-3 sm:p-4 border box-border outline-none rounded-none ring-2 ring-brand-default text-sm sm:text-base"
+                disabled={isScraping || isGenerating}
+              />
+              <button
+                onClick={scrapeUrl}
+                disabled={isScraping || isGenerating || !urlInput}
+                className={`px-4 py-3 sm:py-4 bg-brand-default text-white font-semibold rounded-none transition-all text-sm sm:text-base touch-manipulation ${
+                  isScraping || isGenerating || !urlInput ? 'opacity-50 cursor-not-allowed' : 'hover:ring-offset-2 hover:ring-2'
+                }`}
+              >
+                {isScraping ? 'Scraping...' : 'Scrape URL'}
+              </button>
+            </div>
           </div>
 
           <button
