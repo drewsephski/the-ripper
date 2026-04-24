@@ -200,9 +200,35 @@ export default function FactChecker() {
   };
 
   // Load sample URL function
-  const loadSampleUrl = () => {
+  const loadSampleUrl = async () => {
     setUrlInput(sampleUrl);
     setError(null);
+    
+    // Automatically trigger scraping
+    setIsScraping(true);
+    
+    try {
+      const response = await fetch(getAssetPath('/api/scrapeurl'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url: sampleUrl }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to scrape URL.');
+      }
+
+      const data = await response.json();
+      setArticleContent(data.content);
+      setUrlInput('');
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Failed to scrape URL.');
+    } finally {
+      setIsScraping(false);
+    }
   };
 
   // Scrape URL function
