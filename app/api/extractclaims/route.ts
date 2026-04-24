@@ -1,6 +1,6 @@
 // app/api/extractclaims/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { anthropic } from "@ai-sdk/anthropic";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { generateText } from 'ai';
 
 // This function can run for a maximum of 60 seconds
@@ -13,9 +13,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Content is required' }, { status: 400 });
     }
 
+    console.log('OPENROUTER_API_KEY exists:', !!process.env.OPENROUTER_API_KEY);
+
+    const openrouter = createOpenRouter({
+      apiKey: process.env.OPENROUTER_API_KEY,
+    });
+
     // Run the prompt to extract claims along with original text parts
+    console.log('Calling generateText with model: google/gemini-3.1-flash-lite-preview-20260303');
     const { text } = await generateText({
-      model: anthropic('claude-3-7-sonnet-latest'),
+      model: openrouter('google/gemini-3.1-flash-lite-preview'),
       prompt: 
       `You are an expert at extracting claims from text.
       Your task is to identify and list all claims present, true or false, in the given text. Each claim should be a verifiable statement.
@@ -46,8 +53,14 @@ export async function POST(req: NextRequest) {
       `,
     });
 
+    console.log('Raw text response:', text);
+    
     return NextResponse.json({ claims: JSON.parse(text) });
-  } catch (error) {
-    return NextResponse.json({ error: `Failed to extract claims | ${error}` }, { status: 500 });
+  } catch (error: any) {
+    console.error('Extract claims error:', error);
+    return NextResponse.json({ 
+      error: `Failed to extract claims`,
+      details: error.message || String(error)
+    }, { status: 500 });
   }
 }

@@ -9,10 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "^0.0.56",
     "@ai-sdk/openai": "^0.0.72",
+    "@openrouter/ai-sdk-provider": "^2.8.0",
     "@vercel/analytics": "^1.4.0",
-    "ai": "^3.4.33",
+    "ai": "^6.0.168",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "exa-js": "^1.3.2",

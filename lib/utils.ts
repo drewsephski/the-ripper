@@ -6,5 +6,5 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const getAssetPath = (path: string): string => {
-  return `/hallucination-detector${path}`;
+  return path;
 };

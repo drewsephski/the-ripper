@@ -72,8 +72,14 @@ export default function FactChecker() {
     });
   
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Failed to extract claims.');
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to extract claims.');
+      } else {
+        const text = await response.text();
+        throw new Error(`Server error (${response.status}): ${text.slice(0, 100)}`);
+      }
     }
   
     const data = await response.json();
@@ -93,8 +99,14 @@ export default function FactChecker() {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Failed to fetch verification for claim.');
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to fetch verification for claim.');
+      } else {
+        const text = await response.text();
+        throw new Error(`Server error (${response.status}): ${text.slice(0, 100)}`);
+      }
     }
 
     const data = await response.json();
@@ -112,8 +124,14 @@ export default function FactChecker() {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Failed to verify claim.');
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to verify claim.');
+      } else {
+        const text = await response.text();
+        throw new Error(`Server error (${response.status}): ${text.slice(0, 100)}`);
+      }
     }
 
     const data = await response.json();
@@ -128,11 +146,6 @@ export default function FactChecker() {
   
     if (!articleContent) {
       setError("Please enter some content or try with sample blog.");
-      return;
-    }
-
-    if (articleContent.length < 50) {
-      setError("Too short. Please enter at least 50 characters.");
       return;
     }
   

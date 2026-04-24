@@ -23,7 +23,7 @@ Hallucinations Detector is a free and open-source tool that helps you verify the
 
 ## 🛠️ How It Works
 
-1. **Claim Extraction**: When you input your content, the tool uses an LLM (Claude 3.5 Sonnet) to break down your text into individual claims.
+1. **Claim Extraction**: When you input your content, the tool uses an LLM (via OpenRouter) to break down your text into individual claims.
 
 2. **Source Verification**: Each claim is checked using Exa’s search tool to find reliable sources online that either support or refute it.
 
@@ -36,7 +36,7 @@ Hallucinations Detector is a free and open-source tool that helps you verify the
 ## 💻 Tech Stack
 - **Search Engine**: [Exa.ai](https://exa.ai) - Advanced web search API for AI applications
 - **Frontend**: [Next.js](https://nextjs.org/docs) with App Router, [TailwindCSS](https://tailwindcss.com), TypeScript
-- **LLM**: [Anthropic's Claude 3.5 Sonnet](https://www.anthropic.com/claude/sonnet) - but you can use any LLM (ex: gpt, gemini, llama or others)
+- **LLM**: [OpenRouter](https://openrouter.ai) - Access hundreds of models including Claude, GPT, Gemini, Llama, and more
 - **AI Integration**: [Vercel AI SDK](https://sdk.vercel.ai/docs/ai-sdk-core)
 - **Hosting**: [Vercel](https://vercel.com/) for hosting and analytics
 
@@ -46,7 +46,7 @@ Hallucinations Detector is a free and open-source tool that helps you verify the
 
 ### Prerequisites
 - Node.js
-- API keys for Exa.ai and Anthropic
+- API keys for Exa.ai and OpenRouter
 
 ### Installation
 
@@ -70,7 +70,7 @@ yarn install
 
 ```
 EXA_API_KEY=your_exa_api_key
-ANTHROPIC_API_KEY=your_anthropic_api_key
+OPENROUTER_API_KEY=your_openrouter_api_key
 ```
 
 4.  Run the development server
@@ -90,7 +90,7 @@ yarn dev
 
 *   Get your Exa API key from [Exa Dashboard](https://dashboard.exa.ai/api-keys)
     
-*   Get your Anthropic API key from [Anthropic Documentation](https://docs.anthropic.com/en/api/getting-started#accessing-the-api)
+*   Get your OpenRouter API key from [OpenRouter Keys](https://openrouter.ai/keys)
     
 <br>
 

@@ -1,6 +1,6 @@
 // app/api/verifyclaims/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { anthropic } from "@ai-sdk/anthropic";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { generateObject } from 'ai';
 import { z } from 'zod';
 
@@ -14,6 +14,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Claim and sources are required' }, { status: 400 });
     }
 
+    const openrouter = createOpenRouter({
+      apiKey: process.env.OPENROUTER_API_KEY,
+    });
+
     const factCheckSchema = z.object({
       claim: z.string(),
       assessment: z.enum(["True", "False", "Insufficient Information"]),
@@ -23,7 +27,7 @@ export async function POST(req: NextRequest) {
     });
 
     const { object } = await generateObject({
-      model: anthropic('claude-3-7-sonnet-latest'),
+      model: openrouter('google/gemini-3.1-flash-lite-preview'),
       schema: factCheckSchema,
       output: 'object',
       prompt: `You are an expert fact-checker. Given a claim and a set of sources, determine whether the claim is true or false based on the text from sources (or if there is insufficient information).
@@ -54,8 +58,11 @@ export async function POST(req: NextRequest) {
     console.log('LLM response:', object);
     
     return NextResponse.json({ claims: object });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Verify claims API error:', error);
-    return NextResponse.json({ error: `Failed to extract claims | ${error}` }, { status: 500 });
+    return NextResponse.json({ 
+      error: `Failed to verify claims`,
+      details: error.message || String(error)
+    }, { status: 500 });
   }
 }

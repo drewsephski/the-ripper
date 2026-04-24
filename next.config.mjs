@@ -1,11 +1,10 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-    basePath: "/hallucination-detector",
     experimental: {
       serverActions: {
-        allowedOrigins: ["demo.exa.ai"],
-        allowedForwardedHosts: ["demo.exa.ai"],
+        allowedOrigins: ["demo.exa.ai", "localhost:3000"],
+        allowedForwardedHosts: ["localhost:3000"],
       },
     },
   };
