@@ -34,3 +34,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Never commit local credentials
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
